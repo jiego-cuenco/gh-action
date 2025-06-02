@@ -67,8 +67,8 @@ if __name__ == "__main__":
     result = check_youtube_intermediate()
     print(result)
 
-    with open("result.txt", "w") as f:
-        for key, value in result.items():
-            f.write(f"{key}: {value}\n")
+    with open("result.txt", "w") as f:
+        for key, value in result.items():
+            f.write(f"{key}: {value}\n")
 
-    print(result)
+    print(result)
