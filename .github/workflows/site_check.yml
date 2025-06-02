@@ -30,11 +30,16 @@ jobs:
 
       - name: Read result file
         id: read_result
-        run: echo "content=$(cat result.txt)" >> $GITHUB_OUTPUT
+        run: |
+          content=$(cat result.txt | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "content=$content" >> $GITHUB_OUTPUT
 
       - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
+        uses: dawidd6/action-send-mail@v3
+        with:
+          ...
+          body: ${{ steps.read_result.outputs.content }}
+
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
