@@ -19,10 +19,15 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt || true
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run website check
         run: python intermediate_site_checker.py
+
+      - name: Read result file
+        id: read_result
+        run: echo "content=$(cat result.txt)" >> $GITHUB_OUTPUT
 
       - name: Send email
         uses: dawidd6/action-send-mail@v3
@@ -34,5 +39,4 @@ jobs:
           subject: Website Check Result
           to: jegz1430@gmail.com
           from: GitHub Actions <jegz1430@gmail.com>
-          body: |
-            The website check script has completed. Please check the logs for details.
+          body: ${{ steps.read_result.outputs.content }}
