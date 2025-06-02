@@ -1,0 +1,38 @@
+name: Website Uptime Check
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:     # Allows manual trigger
+
+jobs:
+  check-website:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt || true
+
+      - name: Run website check
+        run: python intermediate_site_checker.py
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Website Check Result
+          to: jegz1430@gmail.com
+          from: GitHub Actions <jegz1430@gmail.com>
+          body: |
+            The website check script has completed. Please check the logs for details.
