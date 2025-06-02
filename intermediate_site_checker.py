@@ -67,10 +67,8 @@ if __name__ == "__main__":
     result = check_youtube_intermediate()
     print(result)
 
-    # Save the result to a file for GitHub Actions email
     with open("result.txt", "w") as f:
         for key, value in result.items():
             f.write(f"{key}: {value}\n")
 
-    # Print to console for logs
     print(result)
