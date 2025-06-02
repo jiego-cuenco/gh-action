@@ -35,11 +35,8 @@ jobs:
           echo "content=$content" >> $GITHUB_OUTPUT
 
       - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          ...
-          body: ${{ steps.read_result.outputs.content }}
-
+        uses: dawidd6/action-send-mail@v3
+        with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
